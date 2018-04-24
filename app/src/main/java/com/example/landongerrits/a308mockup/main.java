@@ -22,14 +22,22 @@ public class main extends AppCompatActivity {
     private ImageView crowd;
     private ImageView musicNote;
 
+    private ImageView upArrow;
+    private ImageView downArrow;
+    private ImageView leftArrow;
+    private ImageView rightArrow;
+
     // Score
     private int score = 0;
 
     // Position
-    private int crowdY;
+    private int crowdX;
 
-    private int musicNoteX;
-    private int musicNoteY;
+    private int upArrowPos;
+    private int downArrowPos;
+    private int leftArrowPos;
+    private int rightArrowPos;
+
 
     // Size Constraints
     private int frameHeight;
@@ -59,7 +67,11 @@ public class main extends AppCompatActivity {
         scoreLabel = (TextView) findViewById(R.id.scoreLabel);
         startLabel = (TextView) findViewById(R.id.startLabel);
         crowd = (ImageView) findViewById(R.id.crowd);
-        musicNote = (ImageView) findViewById(R.id.musicNote);
+
+        upArrow = (ImageView) findViewById(R.id.upArrow);
+        downArrow = (ImageView) findViewById(R.id.downArrow);
+        leftArrow = (ImageView) findViewById(R.id.leftArrow);
+        rightArrow = (ImageView) findViewById(R.id.rightArrow);
 
         // get screen size
         WindowManager wm = getWindowManager();
@@ -70,23 +82,28 @@ public class main extends AppCompatActivity {
         screenWidth = size.x;
         screenHeight = size.y;
 
-        // set music note off screen
-        musicNote.setX(-80);
-        musicNote.setY(-80);
+        // set arrows off screen
+        upArrow.setY(-80);
+        downArrow.setY(-80);
+        leftArrow.setY(-80);
+        rightArrow.setY(-80);
+
+
 
 
     }
 
     public void hitCheck(){
 
-        // musicNote
-        int noteCenterX = musicNoteX + musicNote.getWidth() / 2;
-        int noteCenterY = musicNoteY + musicNote.getHeight() / 2;
+        int upArrowCenterX = upArrowPos + upArrow.getWidth() / 2;
+        int upArrowCenterY = upArrowPos + upArrow.getHeight() / 2;
 
-        if(0 <= noteCenterX && noteCenterX <= crowdSize && crowdY <= noteCenterY && noteCenterY <= crowdY + crowdSize) {
-            musicNoteX = -10;
-            score += 100;
-        }
+
+        //incomplete finish this method
+//        if(0 <= upArrowCenterX && upArrowCenterX <= crowdSize && crowdX <= upArrowCenterY && upArrowCenterY <= crowdX + crowdSize) {
+//            upArrowPos = screenHeight + 10;
+//            score += 100;
+//        }
 
     }
 
@@ -95,27 +112,61 @@ public class main extends AppCompatActivity {
         hitCheck();
 
         // Spawn music note
-        musicNoteX -= 16;
-        if(musicNoteX < 0) {
-            musicNoteX = screenWidth + 20;
-            musicNoteY = (int) Math.floor(Math.random() * (frameHeight - musicNote.getHeight()));
+//        musicNoteX -= 16;
+//        if(musicNoteX < 0) {
+//            musicNoteX = screenWidth + 20;
+//            musicNoteY = (int) Math.floor(Math.random() * (frameHeight - musicNote.getHeight()));
+//        }
+//        musicNote.setX(musicNoteX);
+//        musicNote.setY(musicNoteY);
+
+        //spawn arrows
+
+        //up arrow spawn
+        upArrowPos += 14;
+        if(upArrowPos > frameHeight){
+            upArrowPos = -50;
         }
-        musicNote.setX(musicNoteX);
-        musicNote.setY(musicNoteY);
+        upArrow.setY(upArrowPos);
 
-        // Move crowd
-        if(action_flag) {
-            // touching
-            crowdY -= 20;
-        } else {
-            // releasing
-            crowdY += 20;
+        //down arrow spawn
+        downArrowPos += 10;
+        if(downArrowPos > frameHeight){
+            downArrowPos = -50;
         }
+        downArrow.setY(downArrowPos);
 
-        if(crowdY < 0 ) crowdY = 0;
-        if(crowdY >= frameHeight - crowdSize) crowdY = frameHeight - crowdSize;
+        //left arrow spawn
+        leftArrowPos += 11;
+        if(leftArrowPos > frameHeight){
+            leftArrowPos = -50;
+        }
+        leftArrow.setY(leftArrowPos);
 
-        crowd.setY(crowdY);
+        //right arrow spawn
+        rightArrowPos += 15;
+        if(rightArrowPos > frameHeight){
+            rightArrowPos = -50;
+        }
+        rightArrow.setY(rightArrowPos);
+
+
+
+//        // Move crowd
+//        if(action_flag) {
+//            // touching
+//            crowdX += 20;
+//        } else {
+//            // releasing
+//            crowdX -= 20;
+//        }
+//
+//
+//        if(crowdX < 0) crowdX = 0;
+////        if(crowdX >= frameWidth - crowdSize) crowdX = frameWidth - crowdSize;
+//
+//        crowd.setX(crowdX);
+
 
         scoreLabel.setText("Score : " + score);
     }
@@ -129,7 +180,7 @@ public class main extends AppCompatActivity {
             FrameLayout frame = (FrameLayout) findViewById(R.id.frame);
             frameHeight = frame.getHeight();
 
-            crowdY = (int)crowd.getY();
+            crowdX = (int)crowd.getX();
 
             // square icon so height = width
             crowdSize = crowd.getHeight();
